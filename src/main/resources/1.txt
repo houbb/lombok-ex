@@ -1,0 +1,1 @@
+D:\github\jca\jca-core\src\main\resources\META-INF\services
