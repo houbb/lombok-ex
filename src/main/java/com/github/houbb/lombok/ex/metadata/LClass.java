@@ -1,5 +1,6 @@
 package com.github.houbb.lombok.ex.metadata;
 
+import com.github.houbb.lombok.ex.constant.ClassConst;
 import com.github.houbb.lombok.ex.model.ProcessContext;
 import com.sun.source.tree.Tree;
 import com.sun.tools.javac.code.Flags;
@@ -24,6 +25,25 @@ public class LClass extends LCommon {
      */
     private final JCTree.JCClassDecl classDecl;
 
+    /**
+     * 设置类的修饰符
+     *
+     * @param modifier 修饰符
+     * @return 返回当前类
+     * @since 0.0.2
+     */
+    public LClass modifier(long modifier) {
+        classDecl.mods.flags = modifier;
+        return this;
+    }
+
+    /**
+     * 获取当前类的修饰符
+     * @return 修饰符
+     */
+    public long modifiler() {
+        return classDecl.mods.flags;
+    }
 
     public LClass(ProcessContext processContext, Symbol.ClassSymbol classSymbol) {
         super(processContext);
@@ -140,13 +160,39 @@ public class LClass extends LCommon {
         return false;
     }
 
+    /**
+     *  获取类修饰符
+     * @since 0.0.1
+     * @return 修饰符
+     */
     public Symbol.ClassSymbol classSymbol() {
         return classSymbol;
     }
 
-    public JCTree.JCClassDecl classDecl() {
-        return classDecl;
+    /**
+     * 设置无参数构造器
+     *
+     * @param modifier 访问级别
+     * @return 返回当前类
+     */
+    public LClass addNoArgConstructor(final long modifier) {
+        // 遍历类的所有字段和方法
+        for (JCTree jcTree : classDecl.defs) {
+            // 只处理方法
+            if (jcTree instanceof JCTree.JCMethodDecl) {
+                JCTree.JCMethodDecl methodDecl = (JCTree.JCMethodDecl) jcTree;
+                // 如果是构造方法 并且 没有参数
+                if (ClassConst.CONSTRUCTOR_NAME.equals(methodDecl.name.toString()) && methodDecl.params.isEmpty()) {
+                    // 把修饰符改为指定访问级别
+                    methodDecl.mods.flags = modifier;
+                }
+            }
+        }
+
+        return this;
     }
+
+
 
 
 }

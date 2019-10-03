@@ -6,7 +6,7 @@
 
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
@@ -25,12 +25,7 @@
         <project.compiler.level>1.7</project.compiler.level>
 
         <!--============================== INTER ==============================-->
-        <heaven.version>0.1.28</heaven.version>
-        <log-integration.version>1.1.7</log-integration.version>
-        <json.version>0.1.0</json.version>
-
         <!--============================== OTHER ==============================-->
-        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -39,14 +34,6 @@
 
 
             <!--============================== INTER ==============================-->
-            <dependency>
-                <groupId>com.github.houbb</groupId>
-                <artifactId>heaven</artifactId>
-                <version>${heaven.version}</version>
-            </dependency>
-
-
-
         </dependencies>
     </dependencyManagement>
 
@@ -137,8 +124,8 @@
     </build>
 
     <!--============================== ADD For sonatype START ==============================-->
-    <name>hades</name>
-    <description>The cache framework extend from guava redis.</description>
+    <name>lombok-ex</name>
+    <description>The lombok extension framework.</description>
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -153,8 +140,8 @@
         </license>
     </licenses>
     <scm>
-        <url>https://github.com/houbb/hades</url>
-        <connection>https://github.com/houbb/hades.git</connection>
+        <url>https://github.com/houbb/lombok-ex</url>
+        <connection>https://github.com/houbb/lombok-ex.git</connection>
         <developerConnection>https://houbb.github.io/</developerConnection>
     </scm>
     <developers>

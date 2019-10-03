@@ -7,7 +7,7 @@ import java.lang.annotation.*;
  * （2）生成 语句
  *
  * <pre>
- *     private static final long serialVersionUID = 1L;
+ *     private static final Long serialVersionUID = 1L;
  * </pre>
  * @author binbin.hou
  * @since 0.0.1

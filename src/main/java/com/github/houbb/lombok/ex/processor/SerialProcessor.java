@@ -4,22 +4,13 @@ import com.github.houbb.lombok.ex.annotation.Serial;
 import com.github.houbb.lombok.ex.metadata.LClass;
 import com.github.houbb.lombok.ex.metadata.LField;
 import com.github.houbb.lombok.ex.metadata.LObject;
-import com.github.houbb.lombok.ex.model.ProcessContext;
-import com.sun.tools.javac.api.JavacTrees;
 import com.sun.tools.javac.code.Flags;
-import com.sun.tools.javac.code.Symbol;
-import com.sun.tools.javac.processing.JavacProcessingEnvironment;
-import com.sun.tools.javac.tree.TreeMaker;
-import com.sun.tools.javac.util.Context;
-import com.sun.tools.javac.util.Names;
 
-import javax.annotation.processing.*;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic;
 import java.io.Serializable;
-import java.util.Set;
+import java.lang.annotation.Annotation;
 
 /**
  * {@link com.github.houbb.lombok.ex.annotation.Serial} 对应的解释器
@@ -28,67 +19,15 @@ import java.util.Set;
  */
 @SupportedAnnotationTypes("com.github.houbb.lombok.ex.annotation.Serial")
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
-public class SerialProcessor extends AbstractProcessor {
-
-    /**
-     * Messager主要是用来在编译期打log用的
-     */
-    private Messager messager;
-
-    /**
-     * JavacTrees提供了待处理的抽象语法树
-     */
-    private JavacTrees trees;
-
-    /**
-     * TreeMaker封装了创建AST节点的一些方法
-     */
-    private TreeMaker treeMaker;
-
-    /**
-     * Names提供了创建标识符的方法
-     */
-    private Names names;
-
-    /**
-     * 执行上下文
-     */
-    private ProcessContext processContext;
+public class SerialProcessor extends BaseClassProcessor {
 
     @Override
-    public synchronized void init(ProcessingEnvironment processingEnv) {
-        super.init(processingEnv);
-        this.messager = processingEnv.getMessager();
-        this.trees = JavacTrees.instance(processingEnv);
-        Context context = ((JavacProcessingEnvironment) processingEnv).getContext();
-        this.treeMaker = TreeMaker.instance(context);
-        this.names = Names.instance(context);
-
-        this.processContext = ProcessContext.newInstance().messager(messager)
-                .names(names).treeMaker(treeMaker).trees(trees);
+    protected Class<? extends Annotation> getAnnotationClass() {
+        return Serial.class;
     }
 
     @Override
-    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        Set<? extends Element> serialSet = roundEnv.getElementsAnnotatedWith(Serial.class);
-
-        // 对于每一个类可以分开，使用线程进行处理。
-        for(Element element : serialSet) {
-            if (element instanceof Symbol.ClassSymbol) {
-                LClass lClass = new LClass(processContext, (Symbol.ClassSymbol) element);
-                process(lClass);
-                messager.printMessage(Diagnostic.Kind.NOTE, "Serial has been processed");
-            }
-        }
-        return true;
-    }
-
-    /**
-     * 处理每一个类
-     *
-     * @param lClass 类
-     */
-    private void process(LClass lClass) {
+    protected void handleClass(LClass lClass) {
         // 给此类添加一个接口
         lClass.addInterface(Serializable.class);
 

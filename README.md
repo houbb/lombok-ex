@@ -8,9 +8,27 @@ lombok-ex 是一款类似于 lombok 的编译时注解框架。
 [![Build Status](https://www.travis-ci.org/houbb/lombok-ex.svg?branch=master)](https://www.travis-ci.org/houbb/lombok-ex)
 [![Coverage Status](https://coveralls.io/repos/github/houbb/lombok-ex/badge.svg?branch=master)](https://coveralls.io/github/houbb/lombok-ex?branch=master)
 
+## 创作目的
+
+- 补充 lombok 缺失的注解，便于日常开发使用。
+
+- lombok 的源码基本不可读，应该是加密处理了。
+
+- 为其他注解相关框架提升性能提供基础，后期考虑替换为编译时注解。
+
 ## 特性
 
 - `@Serial` 支持
+
+（1）类实现序列化接口
+
+（2）类生成 serialVersionUID 字段，字段的值可以通过 value() 属性指定。
+
+- `@Util` 支持
+
+（1）类设置为 final
+
+（2）类构造器私有化
 
 ## 变更日志
 
@@ -34,7 +52,7 @@ maven 3.x+
 <dependency>
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -50,10 +68,6 @@ package com.github.houbb.lombok.test.model;
 
 import com.github.houbb.lombok.ex.annotation.Serial;
 
-/**
- * @author binbin.hou
- * @since 1.0.0
- */
 @Serial
 public class User {
 
@@ -100,6 +114,34 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+}
+```
+
+# @Util 使用案例
+
+## 注解使用
+
+```java
+@Util
+public class StringUtil {
+
+    public static boolean isEmpty(final String string) {
+        return null == string || "".equals(string);
+    }
+
+}
+```
+
+## 效果
+
+```java
+public final class StringUtil {
+    private StringUtil() {
+    }
+
+    public static boolean isEmpty(String string) {
+        return null == string || "".equals(string);
     }
 }
 ```
