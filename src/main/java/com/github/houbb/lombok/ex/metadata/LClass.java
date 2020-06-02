@@ -41,7 +41,7 @@ public class LClass extends LCommon {
      * 获取当前类的修饰符
      * @return 修饰符
      */
-    public long modifiler() {
+    public long modifier() {
         return classDecl.mods.flags;
     }
 
@@ -191,8 +191,5 @@ public class LClass extends LCommon {
 
         return this;
     }
-
-
-
 
 }

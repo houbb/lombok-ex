@@ -27,7 +27,7 @@ public class UtilProcessor extends BaseClassProcessor {
     @Override
     protected void handleClass(LClass lClass) {
         // 设置当前类为 final
-        long originalModifier = lClass.modifiler();
+        long originalModifier = lClass.modifier();
         lClass.modifier(originalModifier | Flags.FINAL);
 
         // 添加私有无参构造器

@@ -6,7 +6,7 @@
 
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
@@ -49,6 +49,12 @@
             <version>${java.version}</version>
             <scope>system</scope>
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.houbb</groupId>
+            <artifactId>auto-log-annotation</artifactId>
+            <version>0.0.3</version>
         </dependency>
 
     </dependencies>

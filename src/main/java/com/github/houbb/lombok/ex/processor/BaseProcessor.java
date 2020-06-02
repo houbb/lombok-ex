@@ -1,9 +1,7 @@
 package com.github.houbb.lombok.ex.processor;
 
-import com.github.houbb.lombok.ex.metadata.LClass;
 import com.github.houbb.lombok.ex.model.ProcessContext;
 import com.sun.tools.javac.api.JavacTrees;
-import com.sun.tools.javac.code.Symbol;
 import com.sun.tools.javac.processing.JavacProcessingEnvironment;
 import com.sun.tools.javac.tree.TreeMaker;
 import com.sun.tools.javac.util.Context;
@@ -12,12 +10,6 @@ import com.sun.tools.javac.util.Names;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.element.Element;
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 抽象执行器
