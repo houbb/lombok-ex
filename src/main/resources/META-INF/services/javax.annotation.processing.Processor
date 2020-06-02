@@ -1,2 +1,3 @@
 com.github.houbb.lombok.ex.processor.SerialProcessor
 com.github.houbb.lombok.ex.processor.UtilProcessor
+com.github.houbb.lombok.ex.processor.AutoLogProcessor

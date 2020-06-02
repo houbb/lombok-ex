@@ -12,22 +12,11 @@ public interface ILog {
 
     /**
      * 日志输出入参
-     * @param packageName 包名
-     * @param className 类名
+     * @param fullClassName 包名
      * @param methodName 方法名
      * @param params 参数列表
      * @since 0.0.3
      */
-    void logParam(String packageName, String className, String methodName, Object... params);
-
-    /**
-     * 输出结果
-     * @param packageName 包名
-     * @param className 类名
-     * @param methodName 方法名
-     * @param returnValue 返回结果
-     * @since 0.0.3
-     */
-    void logResult(String packageName, String className, String methodName, Object returnValue);
+    void logParam(String fullClassName, String methodName, Object... params);
 
 }

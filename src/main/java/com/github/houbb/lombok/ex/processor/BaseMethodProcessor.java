@@ -5,6 +5,7 @@ import com.sun.tools.javac.code.Symbol;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -58,7 +59,9 @@ public abstract class BaseMethodProcessor extends BaseProcessor {
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotationClass);
         List<LMethod> methodList = new ArrayList<>(elements.size());
         for (Element e : elements) {
-            if (e instanceof Symbol.MethodSymbol) {
+            // 方法信息
+            if (e.getKind() == ElementKind.METHOD
+                && e instanceof Symbol.MethodSymbol) {
                 methodList.add(new LMethod(processContext, (Symbol.MethodSymbol) e));
             }
         }

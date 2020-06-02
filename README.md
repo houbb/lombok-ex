@@ -32,7 +32,7 @@ lombok-ex 是一款类似于 lombok 的编译时注解框架。
 
 ## 变更日志
 
-[变更日志](doc/CHANGE_LOG.md)
+[变更日志](CHANGE_LOG.md)
 
 # 快速开始
 
