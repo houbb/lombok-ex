@@ -6,7 +6,7 @@ import com.sun.tools.javac.tree.JCTree;
 
 /**
  * <pre>
- *  https://www.programcreek.com/java-api-examples/?class=com.sun.tools.javac.tree.JCTree&method=JCBlock
+ *  https://www.programcreek.com/java-api-examples/?class=com.sun.tools.javac.tree.JCTree
  * </pre>
  *
  * @author binbin.hou
