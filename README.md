@@ -189,6 +189,14 @@ public class ToStringTest {
 
 - [ ] `@AutoLog` 实现完善
 
+- [ ] `@NotNull` 等参数校验，可以单独一个项目
+
+- [ ] `@Sync` 等同步异步
+
+- [ ] `@Equals` `@HashCode` `@EqualsAndHashCode` 等内置方法重载 
+
+- [ ] bean-mapping, sensitive 等优化
+
 - [ ] AST 基础框架
 
 思路：通过 AST 直接解析文本，然后通过 AST 结合 jdk utils 重新构建 class 文件。
