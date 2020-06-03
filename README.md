@@ -30,6 +30,12 @@ lombok-ex 是一款类似于 lombok 的编译时注解框架。
 
 （2）类构造器私有化
 
+- `@ToString` 支持
+
+（1）自动生成 toString() 方法
+
+（2）默认为 JSON 实现，后期将添加拓展
+
 ## 变更日志
 
 [变更日志](CHANGE_LOG.md)
@@ -44,7 +50,7 @@ maven 3.x+
 
 - 编译器启用编译时注解功能。
 
-如  idea 启用 `enable annotation process`
+如  idea 启用编译时注解，勾选【enable annotation process】
 
 ## maven 引入
 
@@ -52,7 +58,7 @@ maven 3.x+
 <dependency>
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.4</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -146,10 +152,43 @@ public final class StringUtil {
 }
 ```
 
+# @ToString 注解
+
+## 简介
+
+`@ToString` 注解在类上使用，可以默认生成 toString() 方法
+
+例子:
+
+```java
+import com.github.houbb.lombok.ex.annotation.ToString;
+
+@ToString
+public class ToStringTest {
+}
+```
+
+## 效果
+
+编译后的 class 文件信息：
+
+```java
+import com.alibaba.fastjson.JSON;
+
+public class ToStringTest {
+    public ToStringTest() {
+    }
+
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
+}
+```
+
 # 后期 Road-map
 
-- [ ] `@AutoLog` 实现
+- [ ] `@AutoLog` 实现完善
 
-- [ ] `@ToString` 实现
+- [ ] AST 基础框架
 
-- [ ] AST 框架
+思路：通过 AST 直接解析文本，然后通过 AST 结合 jdk utils 重新构建 class 文件。

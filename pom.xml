@@ -6,7 +6,7 @@
 
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.4</version>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
@@ -25,6 +25,9 @@
         <project.compiler.level>1.7</project.compiler.level>
 
         <!--============================== INTER ==============================-->
+        <heaven.version>0.1.105</heaven.version>
+        <auto-log-annotation.version>0.0.3</auto-log-annotation.version>
+
         <!--============================== OTHER ==============================-->
         <fastjson.version>1.2.70</fastjson.version>
     </properties>
@@ -45,12 +48,12 @@
         <dependency>
             <groupId>com.github.houbb</groupId>
             <artifactId>heaven</artifactId>
-            <version>0.1.105</version>
+            <version>${heaven.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.houbb</groupId>
             <artifactId>auto-log-annotation</artifactId>
-            <version>0.0.3</version>
+            <version>${auto-log-annotation.version}</version>
         </dependency>
 
         <!--============================== OTHER ==============================-->
@@ -59,6 +62,7 @@
             <artifactId>tools</artifactId>
             <version>${java.version}</version>
             <scope>system</scope>
+            <optional>true</optional>
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
 
