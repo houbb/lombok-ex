@@ -26,6 +26,7 @@
 
         <!--============================== INTER ==============================-->
         <!--============================== OTHER ==============================-->
+        <fastjson.version>1.2.70</fastjson.version>
     </properties>
 
     <dependencyManagement>
@@ -61,6 +62,11 @@
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

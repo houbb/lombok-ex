@@ -1,8 +1,6 @@
 package com.github.houbb.lombok.ex.processor;
 
 import com.github.houbb.auto.log.annotation.AutoLog;
-import com.github.houbb.heaven.util.guava.Guavas;
-import com.github.houbb.heaven.util.lang.StringUtil;
 import com.github.houbb.lombok.ex.constant.LombokExConst;
 import com.github.houbb.lombok.ex.metadata.LMethod;
 import com.github.houbb.lombok.ex.support.log.impl.ConsoleLog;
@@ -15,14 +13,11 @@ import com.sun.tools.javac.util.List;
 import com.sun.tools.javac.util.ListBuffer;
 import com.sun.tools.javac.util.Names;
 
-import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
 import java.lang.annotation.Annotation;
-import java.util.Set;
 
 /**
  * {@link com.github.houbb.auto.log.annotation.AutoLog} 对应的解释器

@@ -8,6 +8,8 @@ package com.github.houbb.lombok.ex.constant;
  */
 public final class ClassConst {
 
+    private ClassConst(){}
+
     /**
      * 构造器名称
      *
