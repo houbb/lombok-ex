@@ -50,7 +50,7 @@ public class LCommon {
      * @param importClass 要导入的包
      * @since 0.0.1
      */
-    protected void importPackage(LClass lClass, Class<?> importClass) {
+    public void importPackage(LClass lClass, Class<?> importClass) {
         JCTree.JCCompilationUnit compilationUnit = (JCTree.JCCompilationUnit) trees.getPath(lClass.classSymbol()).getCompilationUnit();
         ListBuffer<JCTree> imports = new ListBuffer<>();
 
@@ -66,5 +66,6 @@ public class LCommon {
 
         compilationUnit.defs = imports.toList();
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.github.houbb.lombok.ex.metadata;
 
 import com.github.houbb.lombok.ex.constant.ClassConst;
+import com.github.houbb.lombok.ex.constant.LombokExConst;
 import com.github.houbb.lombok.ex.model.ProcessContext;
 import com.sun.source.tree.Tree;
 import com.sun.tools.javac.code.Flags;
@@ -24,6 +25,9 @@ public class LClass extends LCommon {
      * 类的声明
      */
     private final JCTree.JCClassDecl classDecl;
+
+
+
 
     /**
      * 设置类的修饰符
@@ -170,6 +174,15 @@ public class LClass extends LCommon {
     }
 
     /**
+     * 获取类声明
+     * @return 类声明
+     * @since 0.0.4
+     */
+    public JCTree.JCClassDecl classDecl() {
+        return classDecl;
+    }
+
+    /**
      * 设置无参数构造器
      *
      * @param modifier 访问级别
@@ -192,4 +205,36 @@ public class LClass extends LCommon {
         return this;
     }
 
+    /**
+     * 导入一个包
+     *
+     * @param importClass 要导入的包
+     * @since 0.0.4
+     */
+    public void importPackage(Class<?> importClass) {
+        super.importPackage(this, importClass);
+    }
+
+    /**
+     * 是否包含指定的方法
+     * @param methodName  方法名称
+     * @return 是否
+     * @since 0.0.4
+     */
+    public boolean containsMethod(final String methodName) {
+        // 遍历类的所有字段和方法
+        for (JCTree jcTree : this.classDecl().defs) {
+            // 只处理方法
+            if (jcTree instanceof JCTree.JCMethodDecl) {
+                JCTree.JCMethodDecl methodDecl = (JCTree.JCMethodDecl) jcTree;
+                // 如果是构造方法 并且 没有参数
+                if (methodName.equals(methodDecl.name.toString())
+                        && methodDecl.params.isEmpty()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

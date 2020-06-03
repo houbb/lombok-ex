@@ -102,7 +102,8 @@ public final class AstUtil {
                                      final Element element,
                                      final String fullClassName) {
         JCTree.JCCompilationUnit compilationUnit = (JCTree.JCCompilationUnit) context.trees()
-                .getPath(element.getEnclosingElement())
+//                .getPath(element.getEnclosingElement())
+                .getPath(element)
                 .getCompilationUnit();
         String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
         String packageName = fullClassName.substring(0, fullClassName.lastIndexOf("."));

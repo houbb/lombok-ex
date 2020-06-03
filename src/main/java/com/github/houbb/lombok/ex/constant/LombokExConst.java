@@ -29,4 +29,10 @@ public final class LombokExConst {
      */
     public static final String PREFIX = "_";
 
+    /**
+     * toString() 方法名称
+     * @since 0.0.4
+     */
+    public static final String TO_STRING = "toString";
+
 }
