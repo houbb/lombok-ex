@@ -1,11 +1,15 @@
 package com.github.houbb.lombok.ex.processor;
 
 import com.alibaba.fastjson.JSON;
+import com.github.houbb.lombok.ex.annotation.Serial;
 import com.github.houbb.lombok.ex.annotation.ToString;
 import com.github.houbb.lombok.ex.constant.ClassConst;
 import com.github.houbb.lombok.ex.constant.LombokExConst;
+import com.github.houbb.lombok.ex.constant.ToStringType;
 import com.github.houbb.lombok.ex.metadata.LClass;
+import com.github.houbb.lombok.ex.support.tostring.IToString;
 import com.github.houbb.lombok.ex.support.tostring.impl.ToStringFastJson;
+import com.sun.source.tree.Tree;
 import com.sun.source.util.SimpleTreeVisitor;
 import com.sun.tools.javac.code.Flags;
 import com.sun.tools.javac.code.Symbol;
@@ -20,6 +24,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 
 /**
  *
@@ -38,11 +43,6 @@ public class ToStringProcessor extends BaseClassProcessor {
 
     @Override
     protected void handleClass(LClass lClass) {
-        //1. 导包
-        lClass.importPackage(lClass, JSON.class);
-        lClass.importPackage(lClass, ToStringFastJson.class);
-
-        //2. 插入方法
         if(!lClass.containsMethod(LombokExConst.TO_STRING)) {
             generateToStringMethod(lClass);
         }
@@ -74,9 +74,10 @@ public class ToStringProcessor extends BaseClassProcessor {
         // 新增一个方法
         final JCTree.JCModifiers modifiers = treeMaker.Modifiers(Flags.PUBLIC);
         Name name = names.fromString(LombokExConst.TO_STRING);
+
         // 表达式
         // 这里缺少了 @Override 注解
-        List<JCTree.JCStatement> statements = List.of(createJSONString());
+        List<JCTree.JCStatement> statements = createToStringStatements(lClass);
 
         JCTree.JCBlock jcBlock = treeMaker.Block(0, statements);
         JCTree.JCExpression restype = treeMaker.Ident(names.fromString("String"));
@@ -97,6 +98,26 @@ public class ToStringProcessor extends BaseClassProcessor {
     }
 
     /**
+     * 构建 toString() 语句
+     * @param lClass 类
+     * @return 结果
+     * @since 0.0.1
+     */
+    @SuppressWarnings("unchecked")
+    private  List<JCTree.JCStatement> createToStringStatements(final LClass lClass) {
+        // 获取注解对应的值
+        ToString toString = lClass.classSymbol().getAnnotation(ToString.class);
+        ToStringType type = toString.value();
+
+        if(ToStringType.FAST_JSON.equals(type)) {
+            return createFastJsonStatements(lClass);
+        }
+
+        // 基于字符串拼接的实现
+        return createStringConcatStatements(lClass);
+    }
+
+    /**
      * 创建
      *
      * <pre>
@@ -104,11 +125,14 @@ public class ToStringProcessor extends BaseClassProcessor {
      * </pre>
      *
      * 待完善的地方：
-     *
      * JSON 可能会有重名，后期可以拓展一下。
      * @return 0.0.4
      */
-    private JCTree.JCStatement createJSONString() {
+    private List<JCTree.JCStatement> createFastJsonStatements(final LClass lClass) {
+        //1. 导包
+        lClass.importPackage(lClass, JSON.class);
+
+        //2. 构建 statement
         JCTree.JCFieldAccess fieldAccess = treeMaker.Select(treeMaker.Ident(names.fromString("JSON")),
                 names.fromString("toJSONString"));
         // 避免类型擦除
@@ -117,7 +141,99 @@ public class ToStringProcessor extends BaseClassProcessor {
         JCTree.JCMethodInvocation methodInvocation = treeMaker.Apply(List.<JCTree.JCExpression>nil(),
 fieldAccess, identBuffers.toList());
 
-        return treeMaker.Return(methodInvocation);
+        JCTree.JCStatement statement = treeMaker.Return(methodInvocation);
+        return List.of(statement);
+    }
+
+    /**
+     * 创建
+     *
+     * 遍历字段，拼接。
+     *
+     * <pre>
+     *
+     * </pre>
+     *
+     * 待完善的地方：
+     * JSON 可能会有重名，后期可以拓展一下。
+     * @return 0.0.6
+     */
+    private List<JCTree.JCStatement> createStringConcatStatements(final LClass lClass) {
+        String fullClassName = lClass.classSymbol().fullname.toString();
+        String className = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+
+        //2. 构建 statement
+        // 所有的字符串都是一个 Literal
+        JCTree.JCLiteral start = treeMaker.Literal(className+"{");
+        // 输出字段信息
+        JCTree.JCBinary lhs = null;
+
+        // TODO: 这里不同的 JDK 版本不兼容
+        final JCTree.Tag tag = JCTree.Tag.PLUS;
+        for(JCTree jcTree : lClass.classDecl().defs) {
+            if(jcTree.getKind() == Tree.Kind.VARIABLE) {
+                JCTree.JCVariableDecl variableDecl = (JCTree.JCVariableDecl) jcTree;
+                String varName = variableDecl.name.toString();
+
+
+                // 初次加載
+                if(lhs == null) {
+                    JCTree.JCLiteral fieldName = treeMaker.Literal(varName+"=");
+                    lhs = treeMaker.Binary(tag, start, fieldName);
+                } else {
+                    JCTree.JCLiteral fieldName = treeMaker.Literal(", "+varName+"=");
+                    lhs = treeMaker.Binary(tag, lhs, fieldName);
+                }
+
+                // 类型为 String 可以考虑加单引号，但是没必要。，判断逻辑比较麻烦
+                String typeName = variableDecl.vartype.toString();
+                if(typeName.endsWith("[]")) {
+                    JCTree.JCMethodInvocation methodInvocation = buildArraysToString(lClass, varName);
+                    lhs = treeMaker.Binary(tag, lhs, methodInvocation);
+                } else {
+                    // 默认直接使用字符串
+                    JCTree.JCIdent fieldValue = treeMaker.Ident(names.fromString(varName));
+                    lhs = treeMaker.Binary(tag, lhs, fieldValue);
+                }
+            }
+        }
+
+        JCTree.JCLiteral rhs = treeMaker.Literal("}");
+        JCTree.JCBinary binary = treeMaker.Binary(tag, lhs, rhs);
+        JCTree.JCStatement statement = treeMaker.Return(binary);
+        return List.of(statement);
+    }
+
+    /**
+     * 构建数组调用
+     *
+     * <pre>
+     *     Arrays.toString("xxx");
+     * </pre>
+     * @param lClass 类
+     * @param varName 命名
+     * @return 结果
+     * @since 0.0.6
+     */
+    private JCTree.JCMethodInvocation buildArraysToString(final LClass lClass,
+                      final String varName) {
+        lClass.importPackage(lClass, Arrays.class);
+
+        //2. 构建 statement
+        JCTree.JCFieldAccess fieldAccess = treeMaker.Select(treeMaker.Ident(names.fromString("Arrays")), names.fromString("toString"));
+        // 避免类型擦除
+        ListBuffer<JCTree.JCExpression> identBuffers = new ListBuffer<>();
+        identBuffers.add(treeMaker.Ident(names.fromString(varName)));
+
+        return treeMaker.Apply(List.<JCTree.JCExpression>nil(),
+                fieldAccess, identBuffers.toList());
+    }
+    public static void main(String[] args) {
+        for(JCTree.Tag tag : JCTree.Tag.values()) {
+            if(71 == tag.ordinal()) {
+                System.out.println(tag);
+            }
+        }
     }
 
 }
