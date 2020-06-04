@@ -69,6 +69,12 @@ maven 3.x+
 </dependency>
 ```
 
+- Gradle 引入方式
+
+```
+compile group: 'com.github.houbb', name: 'lombok-ex', version: '0.0.3'
+```
+
 ## 例子
 
 - User.java
