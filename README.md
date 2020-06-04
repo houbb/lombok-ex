@@ -4,6 +4,8 @@ lombok-ex 是一款类似于 lombok 的编译时注解框架。
 
 主要补充一些 lombok 没有实现，且自己会用到的常见工具。
 
+编译时注解**性能无任何损失**，一个注解搞定一切，无三方依赖。
+
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.houbb/lombok-ex/badge.svg)](http://mvnrepository.com/artifact/com.github.houbb/lombok-ex)
 [![Build Status](https://www.travis-ci.org/houbb/lombok-ex.svg?branch=master)](https://www.travis-ci.org/houbb/lombok-ex)
 [![Coverage Status](https://coveralls.io/repos/github/houbb/lombok-ex/badge.svg?branch=master)](https://coveralls.io/github/houbb/lombok-ex?branch=master)
@@ -36,6 +38,10 @@ lombok-ex 是一款类似于 lombok 的编译时注解框架。
 
 （2）默认为 JSON 实现，后期将添加拓展
 
+- `@Sync` 支持
+
+（1）为方法添加 `synchronized` 关键字
+
 ## 变更日志
 
 [变更日志](CHANGE_LOG.md)
@@ -58,7 +64,7 @@ maven 3.x+
 <dependency>
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -185,17 +191,40 @@ public class ToStringTest {
 }
 ```
 
+# @Sync 注解
+
+## 使用
+
+直接指定在方法上。
+
+```java
+@Sync
+public void syncTest() {
+    System.out.println("sync");
+}
+```
+
+## 效果
+
+```java
+public synchronized void syncTest() {
+    System.out.println("sync");
+}
+```
+
 # 后期 Road-map
+
+- [ ] 对于注解的开关配置以及编译优化
 
 - [ ] `@AutoLog` 实现完善
 
-- [ ] `@NotNull` 等参数校验，可以单独一个项目
-
-- [ ] `@Sync` 等同步异步
-
 - [ ] `@Equals` `@HashCode` `@EqualsAndHashCode` 等内置方法重载 
 
-- [ ] bean-mapping, sensitive 等优化
+- [ ] `@NotNull` 参数校验，可以单独一个项目 [valid](https://github.com/houbb/valid)
+
+- [ ] `@Async` 异步执行 [async](https://github.com/houbb/async)
+
+- [ ] [bean-mapping](https://github.com/houbb/bean-mapping), [sensitive](https://github.com/houbb/sensitive) 等优化
 
 - [ ] AST 基础框架
 

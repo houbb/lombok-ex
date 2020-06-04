@@ -53,4 +53,31 @@ public class LMethod extends LCommon{
         return refClass;
     }
 
+    /**
+     * 设置访问级别
+     * @param modifier 设置访问级别
+     * @return this
+     * @since 0.0.5
+     */
+    public LMethod setModifier(final long modifier) {
+        this.methodDecl.mods.flags = modifier;
+        return this;
+    }
+
+    /**
+     * 新增访问级别
+     *
+     * 1. 以前的保持不变
+     * 2. 新增指定的访问级别
+     * @param modifier 访问级别
+     * @return this
+     * @since 0.0.5
+     */
+    public LMethod addModifier(final long modifier) {
+        long originalModifier = this.methodDecl.mods.flags;
+        long actualModifier = originalModifier | modifier;
+
+        return this.setModifier(actualModifier);
+    }
+
 }

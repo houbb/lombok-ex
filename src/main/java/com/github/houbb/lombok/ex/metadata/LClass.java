@@ -1,7 +1,6 @@
 package com.github.houbb.lombok.ex.metadata;
 
 import com.github.houbb.lombok.ex.constant.ClassConst;
-import com.github.houbb.lombok.ex.constant.LombokExConst;
 import com.github.houbb.lombok.ex.model.ProcessContext;
 import com.sun.source.tree.Tree;
 import com.sun.tools.javac.code.Flags;
@@ -25,9 +24,6 @@ public class LClass extends LCommon {
      * 类的声明
      */
     private final JCTree.JCClassDecl classDecl;
-
-
-
 
     /**
      * 设置类的修饰符
