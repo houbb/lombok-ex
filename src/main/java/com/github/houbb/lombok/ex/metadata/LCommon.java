@@ -52,7 +52,7 @@ public class LCommon {
      */
     public void importPackage(LClass lClass, Class<?> importClass) {
         JCTree.JCCompilationUnit compilationUnit = (JCTree.JCCompilationUnit) trees.getPath(lClass.classSymbol()).getCompilationUnit();
-        ListBuffer<JCTree> imports = new ListBuffer<>();
+        ListBuffer<JCTree> imports = new ListBuffer<JCTree>();
 
         JCTree.JCIdent packageIdent = treeMaker.Ident(names.fromString(importClass.getPackage().getName()));
         JCTree.JCFieldAccess fieldAccess = treeMaker.Select(packageIdent,

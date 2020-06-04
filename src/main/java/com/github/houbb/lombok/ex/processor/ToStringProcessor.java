@@ -33,7 +33,7 @@ import java.util.Arrays;
  * @since 0.0.4
  */
 @SupportedAnnotationTypes("com.github.houbb.lombok.ex.annotation.ToString")
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class ToStringProcessor extends BaseClassProcessor {
 
     @Override
@@ -66,7 +66,7 @@ public class ToStringProcessor extends BaseClassProcessor {
      * @since 0.0.4
      */
     private void generateToStringMethod(LClass lClass) {
-        ListBuffer<JCTree> defBufferList = new ListBuffer<>();
+        ListBuffer<JCTree> defBufferList = new ListBuffer<JCTree>();
         List<JCTree> defList = lClass.classDecl().defs;
         // 添加旧方法
         defBufferList.addAll(defList);
@@ -136,7 +136,7 @@ public class ToStringProcessor extends BaseClassProcessor {
         JCTree.JCFieldAccess fieldAccess = treeMaker.Select(treeMaker.Ident(names.fromString("JSON")),
                 names.fromString("toJSONString"));
         // 避免类型擦除
-        ListBuffer<JCTree.JCExpression> identBuffers = new ListBuffer<>();
+        ListBuffer<JCTree.JCExpression> identBuffers = new ListBuffer<JCTree.JCExpression>();
         identBuffers.add(treeMaker.Ident(names.fromString("this")));
         JCTree.JCMethodInvocation methodInvocation = treeMaker.Apply(List.<JCTree.JCExpression>nil(),
 fieldAccess, identBuffers.toList());
@@ -169,12 +169,12 @@ fieldAccess, identBuffers.toList());
         JCTree.JCBinary lhs = null;
 
         // TODO: 这里不同的 JDK 版本不兼容
+        // 暂时使用这个版本
         final JCTree.Tag tag = JCTree.Tag.PLUS;
         for(JCTree jcTree : lClass.classDecl().defs) {
             if(jcTree.getKind() == Tree.Kind.VARIABLE) {
                 JCTree.JCVariableDecl variableDecl = (JCTree.JCVariableDecl) jcTree;
                 String varName = variableDecl.name.toString();
-
 
                 // 初次加載
                 if(lhs == null) {
@@ -222,18 +222,11 @@ fieldAccess, identBuffers.toList());
         //2. 构建 statement
         JCTree.JCFieldAccess fieldAccess = treeMaker.Select(treeMaker.Ident(names.fromString("Arrays")), names.fromString("toString"));
         // 避免类型擦除
-        ListBuffer<JCTree.JCExpression> identBuffers = new ListBuffer<>();
+        ListBuffer<JCTree.JCExpression> identBuffers = new ListBuffer<JCTree.JCExpression>();
         identBuffers.add(treeMaker.Ident(names.fromString(varName)));
 
         return treeMaker.Apply(List.<JCTree.JCExpression>nil(),
                 fieldAccess, identBuffers.toList());
-    }
-    public static void main(String[] args) {
-        for(JCTree.Tag tag : JCTree.Tag.values()) {
-            if(71 == tag.ordinal()) {
-                System.out.println(tag);
-            }
-        }
     }
 
 }

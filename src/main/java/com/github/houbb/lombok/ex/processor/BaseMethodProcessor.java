@@ -57,7 +57,7 @@ public abstract class BaseMethodProcessor extends BaseProcessor {
     protected List<LMethod> getMethodList(final RoundEnvironment roundEnv,
                                           Class<? extends Annotation> annotationClass) {
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotationClass);
-        List<LMethod> methodList = new ArrayList<>(elements.size());
+        List<LMethod> methodList = new ArrayList<LMethod>(elements.size());
         for (Element e : elements) {
             // 方法信息
             if (e.getKind() == ElementKind.METHOD

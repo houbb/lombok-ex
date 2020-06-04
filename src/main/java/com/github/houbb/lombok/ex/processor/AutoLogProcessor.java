@@ -26,7 +26,7 @@ import java.lang.annotation.Annotation;
  * @since 0.0.3
  */
 @SupportedAnnotationTypes("com.github.houbb.auto.log.annotation.AutoLog")
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class AutoLogProcessor extends BaseMethodProcessor {
 
     @Override
@@ -87,7 +87,7 @@ public class AutoLogProcessor extends BaseMethodProcessor {
         tree.accept(new TreeTranslator() {
             @Override
             public void visitBlock(JCTree.JCBlock tree) {
-                ListBuffer<JCTree.JCStatement> statements = new ListBuffer<>();
+                ListBuffer<JCTree.JCStatement> statements = new ListBuffer<JCTree.JCStatement>();
 
                 /**
                  * create code: LOG.logParam(methodName, args);

@@ -1,7 +1,5 @@
 package com.github.houbb.lombok.ex.util;
 
-import com.github.houbb.heaven.util.lang.StringUtil;
-import com.github.houbb.lombok.ex.constant.LombokExConst;
 import com.github.houbb.lombok.ex.model.ProcessContext;
 import com.sun.source.tree.Tree;
 import com.sun.source.util.Trees;
@@ -114,7 +112,7 @@ public final class AstUtil {
                 names.fromString(className));
         JCTree.JCImport jcImport = treeMaker.Import(fieldAccess, false);
 
-        ListBuffer<JCTree> imports = new ListBuffer<>();
+        ListBuffer<JCTree> imports = new ListBuffer<JCTree>();
         imports.append(jcImport);
 
         for (int i = 0; i < compilationUnit.defs.size(); i++) {
@@ -149,7 +147,7 @@ public final class AstUtil {
 
                 boolean hasVariable = hasVariable(translate(jcClassDecl.defs), className, varName);
 
-                ListBuffer<JCTree> statements = new ListBuffer<>();
+                ListBuffer<JCTree> statements = new ListBuffer<JCTree>();
                 for (JCTree jcTree : jcClassDecl.defs) {
                     statements.append(jcTree);
                 }

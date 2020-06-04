@@ -18,7 +18,7 @@ import java.lang.annotation.Annotation;
  * @since 0.0.1
  */
 @SupportedAnnotationTypes("com.github.houbb.lombok.ex.annotation.Serial")
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class SerialProcessor extends BaseClassProcessor {
 
     @Override

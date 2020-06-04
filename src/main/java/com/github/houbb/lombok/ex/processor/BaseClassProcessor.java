@@ -55,7 +55,7 @@ public abstract class BaseClassProcessor extends BaseProcessor {
      */
     private List<LClass> getClassList(final RoundEnvironment roundEnv,
                                       final Class<? extends Annotation> clazz) {
-        List<LClass> classList = new ArrayList<>();
+        List<LClass> classList = new ArrayList<LClass>();
         Set<? extends Element> serialSet = roundEnv.getElementsAnnotatedWith(clazz);
 
         // 对于每一个类可以分开，使用线程进行处理。

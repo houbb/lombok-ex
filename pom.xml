@@ -6,12 +6,11 @@
 
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.6-SNAPSHOT</version>
+    <version>0.0.6</version>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
-        <plugin.compiler.version>3.2</plugin.compiler.version>
-        <plugin.compiler.version>3.2</plugin.compiler.version>
+        <plugin.compiler.version>3.8.1</plugin.compiler.version>
         <plugin.surefire.version>2.18.1</plugin.surefire.version>
         <plugin.surefire.skip-it>false</plugin.surefire.skip-it>
         <plugin.surefire.ignore-failure>false</plugin.surefire.ignore-failure>
@@ -62,6 +61,7 @@
             <artifactId>tools</artifactId>
             <version>${java.version}</version>
             <scope>system</scope>
+            <optional>true</optional>
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
 
@@ -87,6 +87,11 @@
                     <compilerArgument>-proc:none</compilerArgument>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.0-M1</version>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -109,19 +114,19 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>2.7</version>
-                <configuration>
-                    <format>xml</format>
-                    <maxmem>256m</maxmem>
-                    <!-- aggregated reports for multi-module projects -->
-                    <aggregate>true</aggregate>
-                    <instrumentation>
-                        <excludes>
-                            <exclude>**/*Test.class</exclude>
-                            <exclude>**/HelpMojo.class</exclude>
-                            <exclude>**/*Vo.class</exclude>
-                        </excludes>
-                    </instrumentation>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <format>xml</format>-->
+<!--                    <maxmem>256m</maxmem>-->
+<!--                    &lt;!&ndash; aggregated reports for multi-module projects &ndash;&gt;-->
+<!--                    <aggregate>true</aggregate>-->
+<!--                    <instrumentation>-->
+<!--                        <excludes>-->
+<!--                            <exclude>**/*Test.class</exclude>-->
+<!--                            <exclude>**/HelpMojo.class</exclude>-->
+<!--                            <exclude>**/*Vo.class</exclude>-->
+<!--                        </excludes>-->
+<!--                    </instrumentation>-->
+<!--                </configuration>-->
             </plugin>
 
             <!--mvn clean install sonar:sonar -Dmaven.test.skip=true -Dsonar.host.url=http://localhost:9000-->

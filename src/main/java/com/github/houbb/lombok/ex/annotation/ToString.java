@@ -19,6 +19,6 @@ public @interface ToString {
      * @return 实现方式
      * @since 0.0.6
      */
-    ToStringType value() default ToStringType.CONCAT;
+    ToStringType value() default ToStringType.FAST_JSON;
 
 }

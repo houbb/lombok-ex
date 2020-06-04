@@ -58,7 +58,7 @@ public class LClass extends LCommon {
      * @since 0.0.1
      */
     public LClass insertField(final LField field) {
-        ListBuffer<JCTree> statements = new ListBuffer<>();
+        ListBuffer<JCTree> statements = new ListBuffer<JCTree>();
 
         // 判断当前字段是否已经存在
         if (existsField(field.name())) {
@@ -95,7 +95,7 @@ public class LClass extends LCommon {
             importPackage(this, interfaceClass);
 
             java.util.List<JCTree.JCExpression> implementing = classDecl.implementing;
-            ListBuffer<JCTree.JCExpression> statements = new ListBuffer<>();
+            ListBuffer<JCTree.JCExpression> statements = new ListBuffer<JCTree.JCExpression>();
             for (JCTree.JCExpression impl : implementing) {
                 statements.append(impl);
             }
