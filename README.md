@@ -1,6 +1,6 @@
 # lombok-ex
 
-lombok-ex 是一款类似于 lombok 的编译时注解框架。
+[lombok-ex](https://github.com/houbb/lombok-ex) 是一款类似于 lombok 的编译时注解框架。
 
 主要补充一些 lombok 没有实现，且自己会用到的常见工具。
 
@@ -63,7 +63,7 @@ maven 3.x+
 compile group: 'com.github.houbb', name: 'lombok-ex', version: '0.0.7'
 ```
 
-## 例子
+# @Serial 注解
 
 - User.java
 
@@ -124,7 +124,7 @@ public class User implements Serializable {
 }
 ```
 
-# @Util 使用案例
+# @Util 注解
 
 ## 注解使用
 
@@ -208,7 +208,7 @@ public synchronized void syncTest() {
 }
 ```
 
-# @Modifiers 注解支持
+# @Modifiers 注解
 
 ## 说明
 
