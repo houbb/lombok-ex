@@ -20,31 +20,15 @@ lombok-ex 是一款类似于 lombok 的编译时注解框架。
 
 ## 特性
 
-- `@Serial` 支持
+- `@Serial` 序列化
 
-（1）类实现序列化接口
+- `@Util` 工具类
 
-（2）类生成 serialVersionUID 字段，字段的值可以通过 value() 属性指定。
+- `@ToString` toString
 
-- `@Util` 支持
+- `@Sync` 同步
 
-（1）类设置为 final
-
-（2）类构造器私有化
-
-- `@ToString` 支持
-
-（1）自动生成 toString() 方法
-
-（2）默认为 JSON 实现，后期将添加拓展
-
-- `@Sync` 支持
-
-（1）为方法添加 `synchronized` 关键字
-
-- `@Modifiers` 支持
-
-支持灵活修改修饰符。
+- `@Modifiers` 修饰符
 
 ## 变更日志
 
@@ -68,7 +52,7 @@ maven 3.x+
 <dependency>
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.7</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -76,7 +60,7 @@ maven 3.x+
 - Gradle 引入方式
 
 ```
-compile group: 'com.github.houbb', name: 'lombok-ex', version: '0.0.3'
+compile group: 'com.github.houbb', name: 'lombok-ex', version: '0.0.7'
 ```
 
 ## 例子
