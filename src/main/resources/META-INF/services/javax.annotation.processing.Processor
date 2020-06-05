@@ -3,3 +3,4 @@ com.github.houbb.lombok.ex.processor.UtilProcessor
 com.github.houbb.lombok.ex.processor.AutoLogProcessor
 com.github.houbb.lombok.ex.processor.ToStringProcessor
 com.github.houbb.lombok.ex.processor.SyncProcessor
+com.github.houbb.lombok.ex.processor.ModifiersProcessor

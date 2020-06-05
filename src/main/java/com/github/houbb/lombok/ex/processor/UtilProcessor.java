@@ -16,7 +16,7 @@ import java.lang.annotation.Annotation;
  * @since 0.0.2
  */
 @SupportedAnnotationTypes("com.github.houbb.lombok.ex.annotation.Util")
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
+@SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class UtilProcessor extends BaseClassProcessor {
 
     @Override

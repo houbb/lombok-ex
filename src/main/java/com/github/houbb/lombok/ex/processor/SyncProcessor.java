@@ -20,7 +20,7 @@ import java.lang.annotation.Annotation;
  * @since 0.0.5
  */
 @SupportedAnnotationTypes("com.github.houbb.lombok.ex.annotation.Sync")
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
+@SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class SyncProcessor extends BaseMethodProcessor {
 
     @Override

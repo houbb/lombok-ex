@@ -26,7 +26,7 @@ import java.lang.annotation.Annotation;
  * @since 0.0.3
  */
 @SupportedAnnotationTypes("com.github.houbb.auto.log.annotation.AutoLog")
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
+@SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class AutoLogProcessor extends BaseMethodProcessor {
 
     @Override

@@ -6,7 +6,7 @@
 
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.7-SNAPSHOT</version>
+    <version>0.0.7</version>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
@@ -21,7 +21,7 @@
 
         <!--============================== MAIN ==============================-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.compiler.level>1.7</project.compiler.level>
+        <project.compiler.level>1.8</project.compiler.level>
 
         <!--============================== INTER ==============================-->
         <heaven.version>0.1.105</heaven.version>
@@ -69,6 +69,7 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

@@ -14,8 +14,11 @@ public enum ToStringType {
 
     /**
      * 字符串拼接
+     *
+     * 这个优于 jdk tools 的版本兼容性问题，暂时效果同 FAST_JSON
      * @since 0.0.6
      */
+    @Deprecated
     CONCAT,
 
     ;

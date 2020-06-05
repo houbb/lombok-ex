@@ -1,19 +1,11 @@
 package com.github.houbb.lombok.ex.processor;
 
 import com.alibaba.fastjson.JSON;
-import com.github.houbb.lombok.ex.annotation.Serial;
 import com.github.houbb.lombok.ex.annotation.ToString;
-import com.github.houbb.lombok.ex.constant.ClassConst;
 import com.github.houbb.lombok.ex.constant.LombokExConst;
 import com.github.houbb.lombok.ex.constant.ToStringType;
 import com.github.houbb.lombok.ex.metadata.LClass;
-import com.github.houbb.lombok.ex.support.tostring.IToString;
-import com.github.houbb.lombok.ex.support.tostring.impl.ToStringFastJson;
-import com.sun.source.tree.Tree;
-import com.sun.source.util.SimpleTreeVisitor;
 import com.sun.tools.javac.code.Flags;
-import com.sun.tools.javac.code.Symbol;
-import com.sun.tools.javac.code.Type;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.util.List;
 import com.sun.tools.javac.util.ListBuffer;
@@ -22,7 +14,6 @@ import com.sun.tools.javac.util.Name;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 
@@ -33,7 +24,7 @@ import java.util.Arrays;
  * @since 0.0.4
  */
 @SupportedAnnotationTypes("com.github.houbb.lombok.ex.annotation.ToString")
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
+@SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class ToStringProcessor extends BaseClassProcessor {
 
     @Override
@@ -114,7 +105,8 @@ public class ToStringProcessor extends BaseClassProcessor {
         }
 
         // 基于字符串拼接的实现
-        return createStringConcatStatements(lClass);
+        return createFastJsonStatements(lClass);
+//        return createStringConcatStatements(lClass);
     }
 
     /**
@@ -155,54 +147,57 @@ fieldAccess, identBuffers.toList());
      * </pre>
      *
      * 待完善的地方：
-     * JSON 可能会有重名，后期可以拓展一下。
+     *
+     * TODO: 这里因为 jdk tools 版本不同，导致包冲突。
+     *
+     * 暂时不做处理。
      * @return 0.0.6
      */
-    private List<JCTree.JCStatement> createStringConcatStatements(final LClass lClass) {
-        String fullClassName = lClass.classSymbol().fullname.toString();
-        String className = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
-
-        //2. 构建 statement
-        // 所有的字符串都是一个 Literal
-        JCTree.JCLiteral start = treeMaker.Literal(className+"{");
-        // 输出字段信息
-        JCTree.JCBinary lhs = null;
-
-        // TODO: 这里不同的 JDK 版本不兼容
-        // 暂时使用这个版本
-        final JCTree.Tag tag = JCTree.Tag.PLUS;
-        for(JCTree jcTree : lClass.classDecl().defs) {
-            if(jcTree.getKind() == Tree.Kind.VARIABLE) {
-                JCTree.JCVariableDecl variableDecl = (JCTree.JCVariableDecl) jcTree;
-                String varName = variableDecl.name.toString();
-
-                // 初次加載
-                if(lhs == null) {
-                    JCTree.JCLiteral fieldName = treeMaker.Literal(varName+"=");
-                    lhs = treeMaker.Binary(tag, start, fieldName);
-                } else {
-                    JCTree.JCLiteral fieldName = treeMaker.Literal(", "+varName+"=");
-                    lhs = treeMaker.Binary(tag, lhs, fieldName);
-                }
-
-                // 类型为 String 可以考虑加单引号，但是没必要。，判断逻辑比较麻烦
-                String typeName = variableDecl.vartype.toString();
-                if(typeName.endsWith("[]")) {
-                    JCTree.JCMethodInvocation methodInvocation = buildArraysToString(lClass, varName);
-                    lhs = treeMaker.Binary(tag, lhs, methodInvocation);
-                } else {
-                    // 默认直接使用字符串
-                    JCTree.JCIdent fieldValue = treeMaker.Ident(names.fromString(varName));
-                    lhs = treeMaker.Binary(tag, lhs, fieldValue);
-                }
-            }
-        }
-
-        JCTree.JCLiteral rhs = treeMaker.Literal("}");
-        JCTree.JCBinary binary = treeMaker.Binary(tag, lhs, rhs);
-        JCTree.JCStatement statement = treeMaker.Return(binary);
-        return List.of(statement);
-    }
+//    private List<JCTree.JCStatement> createStringConcatStatements(final LClass lClass) {
+//        String fullClassName = lClass.classSymbol().fullname.toString();
+//        String className = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+//
+//        //2. 构建 statement
+//        // 所有的字符串都是一个 Literal
+//        JCTree.JCLiteral start = treeMaker.Literal(className+"{");
+//        // 输出字段信息
+//        JCTree.JCBinary lhs = null;
+//
+//        // TODO: 这里不同的 JDK 版本不兼容
+//        // 暂时使用这个版本
+//        final JCTree.Tag tag = JCTree.Tag.PLUS;
+//        for(JCTree jcTree : lClass.classDecl().defs) {
+//            if(jcTree.getKind() == Tree.Kind.VARIABLE) {
+//                JCTree.JCVariableDecl variableDecl = (JCTree.JCVariableDecl) jcTree;
+//                String varName = variableDecl.name.toString();
+//
+//                // 初次加載
+//                if(lhs == null) {
+//                    JCTree.JCLiteral fieldName = treeMaker.Literal(varName+"=");
+//                    lhs = treeMaker.Binary(tag, start, fieldName);
+//                } else {
+//                    JCTree.JCLiteral fieldName = treeMaker.Literal(", "+varName+"=");
+//                    lhs = treeMaker.Binary(tag, lhs, fieldName);
+//                }
+//
+//                // 类型为 String 可以考虑加单引号，但是没必要。，判断逻辑比较麻烦
+//                String typeName = variableDecl.vartype.toString();
+//                if(typeName.endsWith("[]")) {
+//                    JCTree.JCMethodInvocation methodInvocation = buildArraysToString(lClass, varName);
+//                    lhs = treeMaker.Binary(tag, lhs, methodInvocation);
+//                } else {
+//                    // 默认直接使用字符串
+//                    JCTree.JCIdent fieldValue = treeMaker.Ident(names.fromString(varName));
+//                    lhs = treeMaker.Binary(tag, lhs, fieldValue);
+//                }
+//            }
+//        }
+//
+//        JCTree.JCLiteral rhs = treeMaker.Literal("}");
+//        JCTree.JCBinary binary = treeMaker.Binary(tag, lhs, rhs);
+//        JCTree.JCStatement statement = treeMaker.Return(binary);
+//        return List.of(statement);
+//    }
 
     /**
      * 构建数组调用

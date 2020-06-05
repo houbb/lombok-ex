@@ -42,6 +42,10 @@ lombok-ex 是一款类似于 lombok 的编译时注解框架。
 
 （1）为方法添加 `synchronized` 关键字
 
+- `@Modifiers` 支持
+
+支持灵活修改修饰符。
+
 ## 变更日志
 
 [变更日志](CHANGE_LOG.md)
@@ -184,6 +188,8 @@ public class ToStringTest {
 
 编译后的 class 文件信息：
 
+ps: 此处依赖 FastJSON，请自行引入。
+
 ```java
 import com.alibaba.fastjson.JSON;
 
@@ -215,6 +221,55 @@ public void syncTest() {
 ```java
 public synchronized void syncTest() {
     System.out.println("sync");
+}
+```
+
+# @Modifiers 注解支持
+
+## 说明
+
+`@Modifiers` 可修改类、方法、字段的访问级别。
+
+暂时可能没有特别好的应用场景，取决于用户自己的使用。
+
+注意：不要搞一些难以理解的东西，尽可能便于使用者理解。
+
+## 使用方式
+
+`@Modifiers` 还有一个 appendMode 属性，默认为 true。
+
+如果设置为 false，可以直接将修饰符改为用户指定的。
+
+```java
+import com.github.houbb.lombok.ex.annotation.Modifiers;
+import com.github.houbb.lombok.ex.constant.Flags;
+
+@Modifiers(Flags.FINAL)
+public class ModifiersTest {
+
+    @Modifiers(Flags.VOLATILE)
+    private int value;
+
+    @Modifiers(Flags.SYNCHRONIZED)
+    public static void syncTest() {
+        System.out.println("sync");
+    }
+
+}
+```
+
+## 效果
+
+```java
+public final class ModifiersTest {
+    private volatile int value;
+
+    public ModifiersTest() {
+    }
+
+    public static synchronized void syncTest() {
+        System.out.println("sync");
+    }
 }
 ```
 
