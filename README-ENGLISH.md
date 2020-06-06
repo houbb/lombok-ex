@@ -54,7 +54,7 @@ If you use editor，please checked【enable annotation process】
 <dependency>
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.7</version>
+    <version>0.0.8</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -183,6 +183,44 @@ public class ToStringTest {
 }
 ```
 
+## Config Type
+
+`@ToString` can also config the toString() generate type.
+
+### java code
+
+```java
+@ToString(ToStringType.CONCAT)
+public class ToStringConcatTest {
+
+    private String name;
+
+    private int age;
+
+    private int[] ints;
+
+}
+```
+
+### class result
+
+```java
+import java.util.Arrays;
+
+public class ToStringConcatTest {
+    private String name;
+    private int age;
+    private int[] ints;
+
+    public ToStringConcatTest() {
+    }
+
+    public String toString() {
+        return "ToStringConcatTest{name=" + this.name + ", age=" + this.age + ", ints=" + Arrays.toString(this.ints) + "}";
+    }
+}
+```
+
 # @Sync
 
 ## Usage
@@ -257,7 +295,7 @@ public final class ModifiersTest {
 
 - [ ] `@AutoLog` implements
 
-- [ ] `@Equals` `@HashCode` `@EqualsAndHashCode` implments 
+- [ ] `@Equals` `@HashCode` `@EqualsAndHashCode` implements 
 
 - [ ] `@NotNull` for argument check, like [valid](https://github.com/houbb/valid)
 

@@ -71,6 +71,7 @@ public final class AstUtil {
      * @return 结果
      * @since 0.0.3
      */
+    @SuppressWarnings("unchecked")
     public static List<JCTree.JCExpression> getParameters(final ProcessContext context,
                                                           final Element element) {
         final List<JCTree.JCExpression>[] params = new List[]{List.nil()};
@@ -200,7 +201,5 @@ public final class AstUtil {
 
         return hasField;
     }
-
-
 
 }

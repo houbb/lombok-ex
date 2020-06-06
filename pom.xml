@@ -6,7 +6,7 @@
 
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.8-SNAPSHOT</version>
+    <version>0.0.8</version>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
@@ -21,7 +21,7 @@
 
         <!--============================== MAIN ==============================-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.compiler.level>1.8</project.compiler.level>
+        <project.compiler.level>1.7</project.compiler.level>
 
         <!--============================== INTER ==============================-->
         <heaven.version>0.1.105</heaven.version>
@@ -30,15 +30,6 @@
         <!--============================== OTHER ==============================-->
         <fastjson.version>1.2.70</fastjson.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <!--============================== SELF ==============================-->
-
-
-            <!--============================== INTER ==============================-->
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <!--============================== SELF ==============================-->
@@ -115,19 +106,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>2.7</version>
-<!--                <configuration>-->
-<!--                    <format>xml</format>-->
-<!--                    <maxmem>256m</maxmem>-->
-<!--                    &lt;!&ndash; aggregated reports for multi-module projects &ndash;&gt;-->
-<!--                    <aggregate>true</aggregate>-->
-<!--                    <instrumentation>-->
-<!--                        <excludes>-->
-<!--                            <exclude>**/*Test.class</exclude>-->
-<!--                            <exclude>**/HelpMojo.class</exclude>-->
-<!--                            <exclude>**/*Vo.class</exclude>-->
-<!--                        </excludes>-->
-<!--                    </instrumentation>-->
-<!--                </configuration>-->
             </plugin>
 
             <!--mvn clean install sonar:sonar -Dmaven.test.skip=true -Dsonar.host.url=http://localhost:9000-->

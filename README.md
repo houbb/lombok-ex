@@ -22,15 +22,15 @@
 
 ## 特性
 
-- `@Serial` 序列化
+- [@Serial](#@Serial) 序列化
 
-- `@Util` 工具类
+- [@Util](#@Util) 工具类
 
-- `@ToString` toString
+- [@ToString](#@ToString) toString()
 
-- `@Sync` 同步
+- [@Sync](#@Sync) 同步
 
-- `@Modifiers` 修饰符
+- [@Modifiers](#@Modifiers) 修饰符
 
 ## 变更日志
 
@@ -46,7 +46,7 @@ maven 3.x+
 
 - 编译器启用编译时注解功能。
 
-如  idea 启用编译时注解，勾选【enable annotation process】
+如 idea 启用编译时注解，勾选【enable annotation process】
 
 ## maven 引入
 
@@ -54,7 +54,7 @@ maven 3.x+
 <dependency>
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.7</version>
+    <version>0.0.8</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -65,7 +65,7 @@ maven 3.x+
 compile group: 'com.github.houbb', name: 'lombok-ex', version: '0.0.7'
 ```
 
-# @Serial 注解
+# @Serial
 
 - User.java
 
@@ -126,7 +126,7 @@ public class User implements Serializable {
 }
 ```
 
-# @Util 注解
+# @Util
 
 ## 注解使用
 
@@ -154,7 +154,7 @@ public final class StringUtil {
 }
 ```
 
-# @ToString 注解
+# @ToString
 
 ## 简介
 
@@ -189,7 +189,45 @@ public class ToStringTest {
 }
 ```
 
-# @Sync 注解
+## 指定方式
+
+`@ToString` 可以指定生成的方式，默认是 FastJson，目前还支持基于字符串拼接的方式：
+
+### 源码
+
+```java
+@ToString(ToStringType.CONCAT)
+public class ToStringConcatTest {
+
+    private String name;
+
+    private int age;
+
+    private int[] ints;
+
+}
+```
+
+### 效果
+
+```java
+import java.util.Arrays;
+
+public class ToStringConcatTest {
+    private String name;
+    private int age;
+    private int[] ints;
+
+    public ToStringConcatTest() {
+    }
+
+    public String toString() {
+        return "ToStringConcatTest{name=" + this.name + ", age=" + this.age + ", ints=" + Arrays.toString(this.ints) + "}";
+    }
+}
+```
+
+# @Sync
 
 ## 使用
 
@@ -210,7 +248,7 @@ public synchronized void syncTest() {
 }
 ```
 
-# @Modifiers 注解
+# @Modifiers
 
 ## 说明
 
