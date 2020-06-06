@@ -23,7 +23,7 @@ public final class AstReflectUtil {
     private AstReflectUtil(){}
 
     /**
-     * 反射调用 {@link TreeMaker#Binary(int, JCTree.JCExpression, JCTree.JCExpression)} 方法
+     * 反射调用
      * @param treeMaker 语法树
      * @param fieldName 字段名
      * @param lhs 左边

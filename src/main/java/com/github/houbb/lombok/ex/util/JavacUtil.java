@@ -26,6 +26,8 @@ public final class JavacUtil {
 
     /**
      * Returns the version of this java compiler, i.e. the JDK that it shipped in. For example, for javac v1.7, this returns {@code 7}.
+     * @return 版本
+     * @since 0.0.8
      */
     public static int getJavaCompilerVersion() {
         int cv = COMPILER_VERSION.get();
@@ -64,6 +66,12 @@ public final class JavacUtil {
         return setVersion(6);
     }
 
+    /**
+     * 设置版本
+     * @param version 版本
+     * @return 版本
+     * @since 0.0.8
+     */
     private static int setVersion(int version) {
         COMPILER_VERSION.set(version);
         return version;
