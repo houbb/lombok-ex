@@ -62,7 +62,7 @@ maven 3.x+
 - Gradle 引入方式
 
 ```
-compile group: 'com.github.houbb', name: 'lombok-ex', version: '0.0.7'
+compile group: 'com.github.houbb', name: 'lombok-ex', version: '0.0.8'
 ```
 
 # Serial
