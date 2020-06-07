@@ -1,12 +1,14 @@
 # lombok-ex
 
-> [ENGLISH README](README-ENGLISH.md)
+> [ENGLISH README](https://github.com/houbb/lombok-ex/blob/master/README-ENGLISH.md)
 
 [lombok-ex](https://github.com/houbb/lombok-ex) 是一款类似于 lombok 的编译时注解框架。
 
 主要补充一些 lombok 没有实现，且自己会用到的常见工具。
 
 编译时注解**性能无任何损失**，一个注解搞定一切，无三方依赖。
+
+实现原理：编译时注解 + 编译原理 AST
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.houbb/lombok-ex/badge.svg)](http://mvnrepository.com/artifact/com.github.houbb/lombok-ex)
 [![Build Status](https://www.travis-ci.org/houbb/lombok-ex.svg?branch=master)](https://www.travis-ci.org/houbb/lombok-ex)
