@@ -299,6 +299,14 @@ public final class ModifiersTest {
 }
 ```
 
+# Benchmark
+
+此处以 `@ToString` 为例，其他条件保持一致。进行 10W 次输出耗时统计。
+
+![Benchmark](Benchmark.PNG)
+
+可见编译时注解和原生写法耗时一致（原理是一样的），优于 FastJSON 基于运行时注解的实现。
+
 # 后期 Road-map
 
 - [ ] 对于注解的开关配置以及编译优化
