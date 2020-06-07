@@ -50,7 +50,7 @@
         <dependency>
             <groupId>sun.jdk</groupId>
             <artifactId>tools</artifactId>
-            <version>${java.version}</version>
+            <version>4</version>
             <scope>system</scope>
             <optional>true</optional>
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
