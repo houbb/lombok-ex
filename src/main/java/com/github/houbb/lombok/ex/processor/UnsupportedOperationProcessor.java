@@ -3,8 +3,7 @@ package com.github.houbb.lombok.ex.processor;
 import com.github.houbb.lombok.ex.annotation.UnsupportedOperation;
 import com.github.houbb.lombok.ex.metadata.LMethod;
 import com.github.houbb.lombok.ex.util.AstUtil;
-import com.sun.source.tree.ThrowTree;
-import com.sun.source.tree.TreeVisitor;
+import com.github.houbb.lombok.ex.util.ExceptionUtil;
 import com.sun.source.util.Trees;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.tree.TreeMaker;
@@ -41,11 +40,57 @@ public class UnsupportedOperationProcessor extends BaseMethodProcessor {
     protected void handleMethod(LMethod method) {
         final Element element = method.methodSymbol();
         //1. 包名称
-        String fullClassName = UnsupportedOperationException.class.getName();
+        // 后期可以添加自定义的异常类和错误描述
+        final Class<? extends RuntimeException> clazz = UnsupportedOperationException.class;
+        String fullClassName = clazz.getName();
         AstUtil.importPackage(processContext, element, fullClassName);
+        AstUtil.importPackage(processContext, element, ExceptionUtil.class.getName());
 
         //2. 生成代码
-        this.generateBlockCode(fullClassName, element);
+        this.generateBlockCode(clazz, element);
+    }
+
+    /**
+     * 生成代码
+     *
+     * <pre>
+     *     throw ExceptionUtil.throwException(clazz);
+     * </pre>
+     * @param clazz 类信息
+     * @param element 元素
+     * @since 0.0.9
+     */
+    private void generateBlockCode(final Class clazz, final Element element) {
+        final TreeMaker treeMaker = processContext.treeMaker();
+        final Names names = processContext.names();
+        final Trees trees = processContext.trees();
+
+        JCTree tree = (JCTree) trees.getTree(element);
+
+        tree.accept(new TreeTranslator() {
+            @Override
+            public void visitBlock(JCTree.JCBlock tree) {
+                ListBuffer<JCTree.JCStatement> statements = new ListBuffer<>();
+                statements.addAll(tree.getStatements());
+
+                //2. 构建 statement
+                JCTree.JCFieldAccess fieldAccess = treeMaker.Select(treeMaker.Ident(names.fromString("ExceptionUtil")), names.fromString("throwException"));
+
+                // 避免类型擦除
+                ListBuffer<JCTree.JCExpression> argListBuffer = new ListBuffer<>();
+                String className = clazz.getName().substring(clazz.getName().lastIndexOf(".") + 1);
+                JCTree.JCIdent classIdent = treeMaker.Ident(names.fromString(className));
+                JCTree.JCFieldAccess argFieldAccess = treeMaker.Select(classIdent, names.fromString("class"));
+
+                argListBuffer.add(argFieldAccess);
+                JCTree.JCMethodInvocation methodInvocation = treeMaker.Apply(List.<JCTree.JCExpression>nil(),
+                        fieldAccess, argListBuffer.toList());
+                JCTree.JCExpressionStatement code = treeMaker.Exec(methodInvocation);
+                statements.add(code);
+
+                result = treeMaker.Block(0, statements.toList());
+            }
+        });
     }
 
     /**
@@ -58,6 +103,7 @@ public class UnsupportedOperationProcessor extends BaseMethodProcessor {
      * @param element 元素
      * @since 0.0.9
      */
+    @Deprecated
     private void generateBlockCode(final String fullClassName, final Element element) {
         final TreeMaker treeMaker = processContext.treeMaker();
         final Names names = processContext.names();
@@ -95,7 +141,6 @@ public class UnsupportedOperationProcessor extends BaseMethodProcessor {
                         System.out.println(Arrays.toString(method.getParameterTypes()));
                     }
                 }
-
 
                 // TODO: 语法不兼容。
                 // https://bz.apache.org/netbeans/show_bug.cgi?id=235347

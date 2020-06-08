@@ -11,12 +11,4 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
 @Documented
 public @interface UnsupportedOperation {
-
-    /**
-     * 异常信息
-     * @return 结果
-     * @since 0.0.9
-     */
-    String message() default "";
-
 }

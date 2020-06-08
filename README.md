@@ -34,6 +34,8 @@
 
 - [@Modifiers](#Modifiers) 修饰符
 
+- [@UnsupportedOperation](#UnsupportedOperation) 不支持的操作
+
 ## 变更日志
 
 [变更日志](CHANGE_LOG.md)
@@ -56,7 +58,7 @@ maven 3.x+
 <dependency>
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.8</version>
+    <version>0.0.9</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -64,7 +66,7 @@ maven 3.x+
 - Gradle 引入方式
 
 ```
-compile group: 'com.github.houbb', name: 'lombok-ex', version: '0.0.8'
+compile group: 'com.github.houbb', name: 'lombok-ex', version: '0.0.9'
 ```
 
 # Serial
@@ -296,6 +298,30 @@ public final class ModifiersTest {
     public static synchronized void syncTest() {
         System.out.println("sync");
     }
+}
+```
+
+# UnsupportedOperation
+
+## 说明
+
+`@UnsupportedOperation` 可以放在方法、构造器上，用于说明当前方法不支持。
+
+等价于 `throw new UnsupportedOperationException();`
+
+## 使用
+
+```java
+@UnsupportedOperation
+public static void add() {
+}
+```
+
+## 效果
+
+```java
+public static void add() {
+    ExceptionUtil.throwException(UnsupportedOperationException.class);
 }
 ```
 
