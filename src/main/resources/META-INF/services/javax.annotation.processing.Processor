@@ -5,3 +5,4 @@ com.github.houbb.lombok.ex.processor.ToStringProcessor
 com.github.houbb.lombok.ex.processor.SyncProcessor
 com.github.houbb.lombok.ex.processor.ModifiersProcessor
 com.github.houbb.lombok.ex.processor.UnsupportedOperationProcessor
+com.github.houbb.lombok.ex.processor.SPIAutoProcessor

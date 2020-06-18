@@ -36,6 +36,8 @@
 
 - [@UnsupportedOperation](#UnsupportedOperation) 不支持的操作
 
+- [@SPIAuto(#SPIAuto)] spi 自动生成文件
+
 ## 变更日志
 
 [变更日志](CHANGE_LOG.md)
@@ -58,7 +60,7 @@ maven 3.x+
 <dependency>
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.0.9</version>
+    <version>0.1.0</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -324,6 +326,53 @@ public static void add() {
     ExceptionUtil.throwException(UnsupportedOperationException.class);
 }
 ```
+
+# SPIAuto
+
+## 说明
+
+该注解配合 [SPI](https://github.com/houbb/spi) 应用使用。
+
+## 代码使用
+
+- SayGood.java
+
+```java
+@SPIAuto("good")
+public class SayGood implements Say{
+
+    @Override
+    public void say() {
+        System.out.println("good");
+    }
+
+}
+```
+
+- SayBad.java
+
+```java
+@SPIAuto("bad")
+public class SayBad implements Say{
+    @Override
+    public void say() {
+        System.out.println("bad");
+    }
+}
+```
+
+## 效果
+
+编译后在对应目录下生成文件 `com.github.houbb.lombok.ex.test.spi.Say`
+
+内容如下：
+
+```
+good=com.github.houbb.lombok.ex.test.spi.SayGood
+bad=com.github.houbb.lombok.ex.test.spi.SayBad
+```
+
+## 效果
 
 # Benchmark
 

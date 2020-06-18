@@ -33,7 +33,9 @@ public abstract class BaseClassProcessor extends BaseProcessor {
      * @param lClass 单个类信息
      * @since 0.0.2
      */
-    protected abstract void handleClass(final LClass lClass);
+    protected void handleClass(final LClass lClass) {
+        // do nothing;
+    }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -53,7 +55,7 @@ public abstract class BaseClassProcessor extends BaseProcessor {
      * @return 列表
      * @since 0.0.2
      */
-    private List<LClass> getClassList(final RoundEnvironment roundEnv,
+    protected List<LClass> getClassList(final RoundEnvironment roundEnv,
                                       final Class<? extends Annotation> clazz) {
         List<LClass> classList = new ArrayList<LClass>();
         Set<? extends Element> serialSet = roundEnv.getElementsAnnotatedWith(clazz);
