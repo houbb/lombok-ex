@@ -1,7 +1,7 @@
 package com.github.houbb.lombok.ex.processor;
 
-import com.github.houbb.heaven.annotation.CommonEager;
 import com.github.houbb.heaven.support.tuple.impl.Pair;
+import com.github.houbb.heaven.util.io.StreamUtil;
 import com.github.houbb.heaven.util.lang.StringUtil;
 import com.github.houbb.lombok.ex.annotation.SPIAuto;
 import com.github.houbb.lombok.ex.exception.LombokExException;
@@ -19,10 +19,13 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.annotation.Annotation;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * {@link com.github.houbb.lombok.ex.annotation.SPIAuto} 对应的解释器
@@ -116,12 +119,12 @@ public class SPIAutoProcessor extends BaseClassProcessor {
                 // no good way to resolve CLASS_OUTPUT without first getting a resource.
                 FileObject existingFile = filer.getResource(StandardLocation.CLASS_OUTPUT, "",fullFilePath);
                 System.out.println("Looking for existing resource file at " + existingFile.toUri());
-                Set<String> oldLines = readServiceFile(existingFile.openInputStream());
+                Set<String> oldLines = new HashSet<>(StreamUtil.readAllLines(existingFile.openInputStream()));
                 System.out.println("Looking for existing resource file set " + oldLines);
 
                 // 写入
                 newLines.addAll(oldLines);
-                writeServiceFile(newLines, existingFile.openOutputStream());
+                StreamUtil.write(newLines, existingFile.openOutputStream());
                 return;
             } catch (IOException e) {
                 // According to the javadoc, Filer.getResource throws an exception
@@ -138,7 +141,7 @@ public class SPIAutoProcessor extends BaseClassProcessor {
                 FileObject newFile = filer.createResource(StandardLocation.CLASS_OUTPUT, "",
                         fullFilePath);
                 try(OutputStream outputStream = newFile.openOutputStream();) {
-                    writeServiceFile(newLines, outputStream);
+                    StreamUtil.write(newLines, outputStream);
                     System.out.println("Write into file "+newFile.toUri());
                 } catch (IOException e) {
                     throw new LombokExException(e);
@@ -174,51 +177,6 @@ public class SPIAutoProcessor extends BaseClassProcessor {
         }
 
         return "";
-    }
-
-    /**
-     * Reads the set of service classes from a service file.
-     *
-     * @param input not {@code null}. Closed after use.
-     * @return a not {@code null Set} of service class names.
-     * @throws IOException 异常
-     */
-    @CommonEager
-    private static Set<String> readServiceFile(InputStream input) throws IOException {
-        HashSet<String> serviceClasses = new HashSet<>();
-        try(BufferedReader r = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = r.readLine()) != null) {
-                line = line.trim();
-                if (!line.isEmpty()) {
-                    serviceClasses.add(line);
-                }
-            }
-            return serviceClasses;
-        } finally {
-            input.close();
-        }
-    }
-
-    /**
-     * Writes the set of service class names to a service file.
-     *
-     * @param output not {@code null}. Not closed after use.
-     * @param services a not {@code null Collection} of service class names.
-     * @throws IOException 异常
-     */
-    @CommonEager
-    private static void writeServiceFile(Collection<String> services, OutputStream output)
-            throws IOException {
-        try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, StandardCharsets.UTF_8))) {
-            for (String service : services) {
-                writer.write(service);
-                writer.newLine();
-            }
-            writer.flush();
-        } finally {
-            output.close();
-        }
     }
 
 }

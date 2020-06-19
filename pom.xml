@@ -6,7 +6,7 @@
 
     <groupId>com.github.houbb</groupId>
     <artifactId>lombok-ex</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
 
     <properties>
         <!--============================== All Plugins START ==============================-->
@@ -24,7 +24,7 @@
         <project.compiler.level>1.7</project.compiler.level>
 
         <!--============================== INTER ==============================-->
-        <heaven.version>0.1.105</heaven.version>
+        <heaven.version>0.1.108</heaven.version>
         <auto-log-annotation.version>0.0.3</auto-log-annotation.version>
 
         <!--============================== OTHER ==============================-->
